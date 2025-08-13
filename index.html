@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主页</title>
+    <link rel="icon" type="image/png" href="./favicon.png">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 50vh;
+            background-image: url('./background.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-color: #f0f5ff;            background-image: url('./background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+ 
+        .search-container {
+            width: 100%;
+            max-width: 650px;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 3rem;
+            width: 50%;
+            text-align: center;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        
+        .logo img {
+            height: 20px;
+            width: auto;
+            aspect-ratio: auto;
+            display: block;
+        }
+        
+        .search-box {
+            display: flex;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            height: 60px;
+            margin-top: 35px
+        }
+        
+        #search-input {
+            flex: 1;
+            padding: 0 20px;
+            font-size: 1.1rem;
+            border: none;
+            outline: none;
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        #search-button {
+            width: 60px;
+            background: #0067b8;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        
+        #search-button:hover {
+            background: #0056a3;
+        }
+        
+        #search-icon {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        @media (max-width: 600px) {
+            .logo {
+                font-size: 2.5rem;
+                margin-bottom: 30px;
+                  }  
+            .logo img {
+                height: 20px; 
+                       }
+        }
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <div align="center"><img height=70px width=auto aspect-ratio=auto src="./favicon.png"></div>
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="输入网址或搜索关键词..." autofocus>
+            <button id="search-button">
+                <svg id="search-icon" viewBox="0 0 24 24">
+                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchButton = document.getElementById('search-button');
+            
+            function handleSearch() {
+                let query = searchInput.value.trim();
+                
+                if (!query) return;
+
+                const urlPattern = /^(?:https?:\/\/|file:\/\/|files:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}/;
+
+                const protocolPattern = /^(https?|file|files):\/\//i;
+                
+                if (urlPattern.test(query) || protocolPattern.test(query)) {
+
+                    if (!protocolPattern.test(query)) {
+                        query = 'http://' + query;
+                    }
+                    window.location.href = query;
+                } else {
+
+                    const bingSearchURL = `https://cn.bing.com/search?qs=n&form=seinsb&sp=-1&q=${encodeURIComponent(query)}`;
+                    window.location.href = bingSearchURL;
+                }
+            }
+            
+
+            searchButton.addEventListener('click', handleSearch);
+            
+
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleSearch();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
